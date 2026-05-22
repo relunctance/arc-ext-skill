@@ -8,6 +8,28 @@ hermes:
 
 # Arc Ext Skill - 智能技能路由器
 
+> **核心定位**：Arc 角色的中央路由器。任何架构任务进来，先查这里，再路由到具体 skill。
+
+---
+
+## ⚡ TL;DR 速查索引
+
+| 你要做的事 | 直接路由 | 说明 |
+|------------|---------|------|
+| 设计新系统 | c4-context | 从上下文开始 |
+| Docker/K8s | c4-container | 容器架构 |
+| API/后端 | backend-architect | REST/GraphQL/事件 |
+| 数据库 | database-architect | Schema/索引/主从 |
+| 评审判审 | bmad-architect | 风险/可行性 |
+| SQL太慢 | sql-pro | 查询优化 |
+| 前端架构 | frontend-developer | React/Vue/性能 |
+| UI/UX | ui-ux-designer | 原型/交互 |
+| 无障碍 | accessibility-specialist | WCAG/ARIA |
+| 写文档 | writing-plans | PRD/技术方案 |
+| 不知道用哪个 | bmad-architect | 让它帮你判断 |
+
+---
+
 ## ⚡ 快速路由（必读）
 
 ### 任务 → Skill 速查
@@ -29,61 +51,89 @@ hermes:
 | "无障碍" | accessibility-specialist | `hermes -p arc -s accessibility-specialist` |
 | "写规划文档" | writing-plans | `hermes -p arc -s writing-plans` |
 
-### 一句话触发规则
+### 一句话触发规则（增强版）
 
 ```
-任务包含...         → 直接路由到...
-------------------------------------------------------------
+任务包含...              → 直接路由到...
+────────────────────────────────────────────────────────────────────────────
+# 系统设计（C4全家桶）
 "架构"、"系统设计"、"上下文" → c4-context
-"容器"、"docker"、"k8s" → c4-container
+"容器"、"docker"、"k8s"、"部署" → c4-container
+"组件"、"module"、"类设计" → c4-component
+"代码级"、"实现细节"、"时序" → c4-code
+
+# 后端架构
 "后端"、"api"、"服务" → backend-architect
+"graphql"、"schema"、"resolver" → graphql-architect
+"事件"、"cqrs"、"event sourcing"、"消息队列" → event-sourcing-architect
+"微服务"、"service mesh"、"Istio" → backend-architect
+
+# 数据库
 "数据库"、"db"、"存储" → database-architect
-"评审"、"review"、"检查" → bmad-architect
-"组件"、"module" → c4-component
-"前端"、"react"、"vue" → frontend-developer
-"sql"、"查询"、"索引" → sql-pro
-"graphql" → graphql-architect
-"事件"、"event"、"cqrs" → event-sourcing-architect
-"代码级"、"实现" → c4-code
-"ui"、"ux"、"界面" → ui-ux-designer
-"无障碍"、"a11y"、"wcag" → accessibility-specialist
+"sql"、"查询"、"索引"、"慢查询" → sql-pro
+"主从"、"分库分表"、"读写分离" → database-architect
+"nosql"、"mongodb"、"redis" → database-architect
+
+# 前端/体验
+"前端"、"react"、"vue"、"angular" → frontend-developer
+"ui"、"ux"、"界面"、"原型" → ui-ux-designer
+"无障碍"、"a11y"、"wcag"、"屏幕阅读器" → accessibility-specialist
+
+# 评审/决策
+"评审"、"review"、"检查"、"评估" → bmad-architect
+"决策"、"方案"、"选型" → bmad-architect
+"风险"、"可行性"、"技术债" → bmad-architect
+
+# 文档/规划
 "规划"、"plan"、"文档" → writing-plans
+"prd"、"需求文档" → writing-plans
+"技术方案"、"RFC" → writing-plans
+
+# 性能/安全
+"性能"、"优化"、"缓存"、"CDN" → backend-architect
+"安全"、"鉴权"、"oauth"、"jwt" → backend-architect
+"可观测"、"监控"、"日志"、"链路追踪" → backend-architect
 ```
+
+---
 
 ## 🔀 智能路由决策树
 
 ```
 收到架构任务
     │
-    ├─ 包含 "架构" / "系统设计" / "上下文"
-    │   └─→ c4-context（上下文建模）
-    │       ├─ "容器" / "docker" / "k8s" → c4-container
-    │       └─ "组件" / "module" → c4-component
+    ├─ 🎯 设计新系统？
+    │   └─ c4-context → c4-container → c4-component → c4-code
     │
-    ├─ 包含 "后端" / "api" / "服务"
-    │   └─→ backend-architect
-    │       ├─ "graphql" → graphql-architect
-    │       └─ "事件" / "cqrs" → event-sourcing-architect
+    ├─ 🎯 后端/微服务？
+    │   ├─ GraphQL → graphql-architect
+    │   ├─ 事件驱动 → event-sourcing-architect
+    │   └─ REST/普通 → backend-architect
     │
-    ├─ 包含 "数据库" / "db" / "存储"
-    │   └─→ database-architect
-    │       └─ "sql" / "索引" → sql-pro
+    ├─ 🎯 数据库？
+    │   ├─ SQL慢查询 → sql-pro
+    │   └─ Schema/结构 → database-architect
     │
-    ├─ 包含 "评审" / "review"
-    │   └─→ bmad-architect
+    ├─ 🎯 前端？
+    │   └─ frontend-developer
     │
-    ├─ 包含 "前端" / "react" / "vue"
-    │   └─→ frontend-developer
+    ├─ 🎯 UI/UX？
+    │   └─ ui-ux-designer
     │
-    ├─ 包含 "ui" / "ux" / "界面"
-    │   └─→ ui-ux-designer
+    ├─ 🎯 无障碍？
+    │   └─ accessibility-specialist
     │
-    ├─ 包含 "无障碍" / "a11y" / "wcag"
-    │   └─→ accessibility-specialist
+    ├─ 🎯 评审/评估？
+    │   └─ bmad-architect
     │
-    └─ 包含 "规划" / "plan" / "文档"
-        └─→ writing-plans
+    ├─ 🎯 写文档？
+    │   └─ writing-plans
+    │
+    └─ ❓ 不知道
+        └─ bmad-architect + 询问澄清
 ```
+
+---
 
 ## 📋 技能地图
 
@@ -104,27 +154,98 @@ hermes:
 | accessibility-specialist | 无障碍设计：WCAG、ARIA、屏幕阅读器 | P2 | 无障碍、a11y、wcag |
 | writing-plans | 规划文档：PRD、技术方案 | P2 | 规划、plan |
 
-## 🎯 场景化深度参考
+---
 
-### 详细参考（引用）
+## 🎯 场景化深度参考（4大场景）
 
-**自然语言示例 + Fallback + 组合流** → 见 `references/quick-reference.md`
+### 场景 1: 新系统设计 🆕
+
+```
+需求：设计一个电商平台
+    │
+    ├─ 1. 上下文建模
+    │   └─ c4-context
+    │       → 系统边界、用户角色、外部系统
+    │
+    ├─ 2. 容器架构
+    │   └─ c4-container
+    │       → 应用拆分、进程、数据服务
+    │
+    ├─ 3. 组件设计
+    │   └─ c4-component
+    │       → 核心模块、类、接口
+    │
+    └─ 4. 代码实现
+        └─ c4-code
+            → 时序图、类图
+```
+
+### 场景 2: 后端架构选型 🆕
+
+```
+需求：选择后端架构方案
+    │
+    ├─ REST API？
+    │   └─ backend-architect
+    │
+    ├─ GraphQL？
+    │   └─ graphql-architect
+    │
+    ├─ 事件驱动/CQRS？
+    │   └─ event-sourcing-architect
+    │
+    └─ 微服务？
+        └─ backend-architect + c4-container
+```
+
+### 场景 3: 数据库设计 🆕
+
+```
+需求：设计数据库方案
+    │
+    ├─ 关系型/Schema？
+    │   └─ database-architect
+    │
+    ├─ SQL 太慢？
+    │   └─ sql-pro
+    │       → 索引优化、查询改写
+    │
+    └─ NoSQL？
+        └─ database-architect
+            → MongoDB/Redis 选型
+```
+
+### 场景 4: 架构评审 🆕
+
+```
+需求：评审现有架构
+    │
+    └─ bmad-architect
+        → 风险识别、可行性评估、技术债
+        → 评审后可能路由到：
+              ├─ c4-context（重新设计上下文）
+              ├─ sql-pro（性能问题）
+              └─ backend-architect（后端问题）
+```
 
 ### 快速决策速查
 
 ```
-系统架构设计     → c4-context → c4-container → c4-component
-后端架构        → backend-architect
-数据库设计      → database-architect
-架构评审        → bmad-architect
-前端架构        → frontend-developer
-SQL 性能        → sql-pro
-GraphQL        → graphql-architect
-事件驱动        → event-sourcing-architect
-UI/UX          → ui-ux-designer
-无障碍          → accessibility-specialist
-规划文档        → writing-plans
-未知任务        → bmad-architect + 询问澄清
+┌────────────────────────────────────────────────────────────┐
+│  场景              │  路由顺序                              │
+├────────────────────────────────────────────────────────────┤
+│  新系统设计         │  c4-context → c4-container → ...     │
+│  后端选型           │  backend-architect + graphql/event   │
+│  数据库设计         │  database-architect → sql-pro         │
+│  架构评审           │  bmad-architect                      │
+│  性能优化           │  sql-pro / frontend-developer         │
+│  安全/鉴权          │  backend-architect                    │
+│  前端架构           │  frontend-developer                   │
+│  UI/UX             │  ui-ux-designer                      │
+│  无障碍             │  accessibility-specialist             │
+│  写文档             │  writing-plans                        │
+│  未知任务           │  bmad-architect + 询问澄清           │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -137,7 +258,7 @@ UI/UX          → ui-ux-designer
 未知任务
     │
     ├─ 询问用户澄清：
-    │   "这个任务是系统设计、数据库设计、还是其他架构相关？"
+    │   "这个任务是系统设计、数据库设计、后端选型、还是架构评审？"
     │
     └─ 如果用户无法描述：
         └─→ bmad-architect（让架构评审帮你判断）
@@ -236,6 +357,7 @@ UI/UX          → ui-ux-designer
 | 错误 | 正确做法 |
 |------|---------|
 | 直接说"设计架构" | 说明设计什么（系统？后端？数据库？） |
+| 不确定用哪个 skill | → bmad-architect 让它帮你判断 |
 | 过度路由 | 直接路由到最可能的 skill |
 | 忘记 Fallback | 无法匹配时 → bmad-architect |
 
