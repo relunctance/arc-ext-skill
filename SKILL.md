@@ -2,7 +2,18 @@
 name: arc-ext-skill
 description: Arc 技能索引路由器 - 接收任何架构任务，智能推荐最合适的 skill 并执行
 version: 2.0.0
+author: relunctance
+license: MIT
+category: gql-bots
+tags:
+  - arc
+  - architecture
+  - skill-router
+  - gql-bots
+  - intelligent-router
 hermes:
+  platforms:
+    hermes: true
   auto_route: true
 ---
 
