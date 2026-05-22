@@ -56,6 +56,43 @@ hermes -p arc -s arc-ext-skill
 | accessibility-specialist | 无障碍设计 | P2 |
 | writing-plans | 规划文档 | P2 |
 
+## 同步到 Hermes
+
+### 安装 Skill 文件到 Hermes Profile
+
+```bash
+# 进入仓库目录
+cd /home/gql/repos/arc-ext-skill
+
+# 执行同步脚本
+bash sync-to-hermes.sh arc
+```
+
+同步后目录结构：
+```
+~/.hermes/profiles/arc/skills/
+├── arc-ext-skill/                      # 路由器
+│   ├── SKILL.md
+│   └── references/
+├── bmad-architect/                    # 独立 skill（软链接）
+│   └── SKILL.md → arc-ext-skill/references/bmad-architect.md
+├── backend-architect/                # 独立 skill（软链接）
+│   └── SKILL.md → arc-ext-skill/references/backend-architect.md
+└── ...                               # 其他 skills
+```
+
+### 验证安装
+
+```bash
+# 查看已安装的 skills
+ls -la ~/.hermes/profiles/arc/skills/
+
+# 验证软链接
+readlink -f ~/.hermes/profiles/arc/skills/bmad-architect/SKILL.md
+```
+
+---
+
 ## 工作流
 
 详见 [SKILL.md](SKILL.md)
