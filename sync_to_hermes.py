@@ -26,7 +26,9 @@ from typing import Set, List, Dict, Optional
 
 
 # 常量
-HERMES_BASE = Path.home() / ".hermes" / "profiles"
+# 注意：WSL 环境下 Path.home() 可能返回 ~/.hermes/profiles/<profile>/home
+# 所以使用明确的绝对路径
+HERMES_BASE = Path("/home/gql/.hermes/profiles")
 REPOS_BASE = Path("/home/gql/repos")
 GQL_BOTS_SHARED = Path("/home/gql/gql-bots/shared")
 
