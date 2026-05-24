@@ -67,7 +67,7 @@ hermes -p arc -s arc-ext-skill
 cd /home/gql/repos/arc-ext-skill
 
 # 执行同步脚本
-bash sync-to-hermes.sh arc
+python sync_to_hermes.py arc
 ```
 
 同步后目录结构：

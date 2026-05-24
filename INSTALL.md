@@ -14,7 +14,7 @@
 cd /home/gql/repos/arc-ext-skill
 
 # 执行同步脚本
-bash sync-to-hermes.sh arc
+python sync_to_hermes.py arc
 ```
 
 ### 方式 2：手动安装
@@ -27,7 +27,7 @@ git clone https://github.com/relunctance/arc-ext-skill.git ~/.hermes/profiles/ar
 cd ~/.hermes/profiles/arc/skills/arc-ext-skill
 
 # 3. 执行同步
-bash sync-to-hermes.sh arc
+python sync_to_hermes.py arc
 ```
 
 ## 验证安装
@@ -81,7 +81,7 @@ MODE_CONFIG: full_auto  # full_auto | semi_auto
 ```bash
 cd /home/gql/repos/arc-ext-skill
 git pull
-bash sync-to-hermes.sh arc
+python sync_to_hermes.py arc
 ```
 
 ## 卸载
